@@ -1,13 +1,6 @@
-// TODO: mess with CMake to get rid of include
-// and also "". I think there will be issue regarding linking
-// include with src
-#include <ISimulation.hpp>
-#include <Objects.hpp>
+#include <Config.hpp>
 
 #include <iostream>
-#include <memory>
-#include <print>
-#include <vector>
 
 // this must be before all to replace some headers
 // interesting how ordering matters
@@ -18,15 +11,15 @@
 #include <imgui/imgui.h>
 
 int main(int argc, char *argv[]) {
-  std::vector<std::unique_ptr<ISimulation>> objects;
+  // TODO: hardcode kind of works. fragile
+  // have to run from root i.e. ./build/main
+  // TODO: Magic strings and values
+  const Config config = Config::Load("settings.toml");
 
-  std::print("hello");
+  const int width = config.Get("window", "width", 123);
+  const int height = config.Get("window", "height", 123);
 
-  Object::Particle bob;
-  bob.position.x = 50.5;
-
-  std::cout << "position: (" << bob.position.x << ", " << bob.position.y
-            << ")\n";
+  std::cout << "W: " << width << " H: " << height << "\n";
 
   return 0;
 }
