@@ -1,8 +1,5 @@
-#include "Vector2.hpp"
 #include <App.hpp>
 #include <Config.hpp>
-#include <Particle.hpp>
-#include <ParticleSimulation.hpp>
 
 #include <iostream>
 
@@ -22,16 +19,6 @@ int main(int argc, char *argv[]) {
   app.load();
 
   app.run();
-
-  // To delete
-  ParticleSimulation foo(100uz);
-  foo.init();
-
-  Particle p;
-  p.position.x = 2020.023;
-  p.position.y = 100;
-  p.velocity = raylib::Vector2(2.0f, 30.0f);
-  std::cout << p;
 
   return 0;
 }

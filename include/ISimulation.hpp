@@ -11,7 +11,7 @@ public:
 
   // update physics model
   // pure virtual function
-  virtual void update(const double dt) = 0;
+  virtual void update(const float dt) = 0;
 
   virtual void render() = 0;
 };

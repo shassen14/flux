@@ -1,3 +1,4 @@
+#include "Window.hpp"
 #include <App.hpp>
 
 #include <ParticleSimulation.hpp>
@@ -13,14 +14,18 @@ App::App(const int32_t width, const int32_t height)
 }
 
 // load simulation
+// TODO: make this freakin smarter
 void App::load() {
-  m_simulation = std::make_unique<ParticleSimulation>(1E4);
+  m_simulation = std::make_unique<ParticleSimulation>(100);
   m_simulation->init();
 }
 
 // run
 void App::run() {
   while (!m_window.ShouldClose()) {
+    float dt = raylib::Window::GetFrameTime();
+
+    m_simulation->update(dt);
 
     // start drawing
     m_window.BeginDrawing();

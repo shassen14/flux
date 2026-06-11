@@ -11,7 +11,7 @@ public:
 
   void init() override;
 
-  void update(const double dt) override;
+  void update(const float dt) override;
 
   void render() override;
 
