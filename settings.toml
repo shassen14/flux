@@ -1,6 +1,6 @@
 [simulation]
 type = "cpu_particles"
-total = 50000
+total = 2000
 
 
 [window]

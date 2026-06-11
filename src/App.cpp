@@ -13,13 +13,6 @@ App::App(const int32_t width, const int32_t height)
   m_window.SetTargetFPS(60);
 }
 
-// load simulation
-// TODO: make this freakin smarter
-void App::load() {
-  m_simulation = std::make_unique<ParticleSimulation>(100);
-  m_simulation->init();
-}
-
 // run
 void App::run() {
   while (!m_window.ShouldClose()) {
