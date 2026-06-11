@@ -8,38 +8,41 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # find some libraries
-find_package(OpenGL REQUIRED)
-# opengl math
-find_package(glm CONFIG REQUIRED)
-# window and gives opengl context
-find_package(glfw3 CONFIG REQUIRED)
-# find_package(CUDAToolkit REQUIRED)
+# raylib
+find_package(raylib QUIET)
+# builds raylib if not found? must have required libraries to build
+if (NOT raylib_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(
+        raylib
+        GIT_REPOSITORY https://github.com/raysan5/raylib.git
+        GIT_TAG 6.0
+        GIT_SHALLOW 1
+    )
+    FetchContent_MakeAvailable(raylib)
+endif()
 
-# imgui?? overlay on top of glfw for editing values such as number of particles
-# glad? modern opengl function loader? used in modern systems
-# so glfw creates window + opengl context
-# glad loads all modern gl functions into context
-# opengl can be used to render in context
+# raylib-cpp
+find_package(raylib_cpp QUIET)
+if (NOT raylib_cpp_FOUND)
+    if (NOT DEFINED RAYLIB_CPP_VERSION)
+        set(RAYLIB_CPP_VERSION v6.0.0)
+    endif()
+    include(FetchContent)
+    FetchContent_Declare(
+        raylib_cpp
+        GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
+        GIT_TAG ${RAYLIB_CPP_VERSION}
+    )
+    FetchContent_MakeAvailable(raylib_cpp)
+endif()
 
 # .hpp files are able to be imported via <> instead of ""
 # for internal files
 file(GLOB_RECURSE sources src/*.cpp)
 
-# imgui sources to combine with executable
-set(imgui_sources
-      external/imgui/imgui.cpp
-      external/imgui/imgui_draw.cpp
-      external/imgui/imgui_tables.cpp
-      external/imgui/imgui_widgets.cpp
-      external/imgui/backends/imgui_impl_glfw.cpp
-      external/imgui/backends/imgui_impl_opengl3.cpp)
-
-add_executable(main main.cpp ${sources} ${imgui_sources})
+add_executable(main main.cpp ${sources})
 target_include_directories(main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-                                       ${CMAKE_CURRENT_SOURCE_DIR}/external
-                                       ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui
-                                       ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends)
+                                       ${CMAKE_CURRENT_SOURCE_DIR}/external)
 
-target_link_libraries(main OpenGL::GL
-                           glm::glm
-                           glfw)
+target_link_libraries(main PUBLIC raylib raylib_cpp)

@@ -28,7 +28,7 @@ public:
     // TODO: throw error? I think std::cerr? would be fine here
     // return default val if node is not found
     std::cerr << "[Error] Config missing or wrong type for: [" << section
-              << "][" << key << "]... Using default value: " << default_value
+              << "][" << key << "] - Using default value: " << default_value
               << "\n";
     return default_value;
   }

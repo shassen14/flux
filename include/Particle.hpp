@@ -1,14 +1,18 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include <raylib-cpp.hpp>
 
 struct Particle {
   // double vector of size 2;
-  glm::vec2 position;
-  glm::vec2 velocity;
+  raylib::Vector2 position;
+  raylib::Vector2 velocity;
 
   // rgba float
-  glm::vec4 color;
+  raylib::Vector4 color;
 
-  Particle() : position(0.0f), velocity(0.0f), color(1.0f) {};
+  Particle()
+      : position(0.0f, 0.0f), velocity(0.0f, 0.0f),
+        color(1.0f, 1.0f, 1.0f, 1.0f) {};
+
+  // TODO: friend ostream print statements
 };
