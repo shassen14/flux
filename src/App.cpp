@@ -1,5 +1,7 @@
 #include <App.hpp>
 
+#include <ParticleSimulation.hpp>
+#include <memory>
 #include <raylib-cpp.hpp>
 
 App::App(const int32_t width, const int32_t height)
@@ -11,6 +13,10 @@ App::App(const int32_t width, const int32_t height)
 }
 
 // load simulation
+void App::load() {
+  m_simulation = std::make_unique<ParticleSimulation>(1E4);
+  m_simulation->init();
+}
 
 // run
 void App::run() {
@@ -24,7 +30,8 @@ void App::run() {
 
     // some random textbox
     // m_window.DrawText("hello world", 10, 10, 20, raylib::Color::Green());
-    raylib::DrawText("hello world", 400, 300, 20, raylib::Color::Green());
+    // raylib::DrawText("hello world", 400, 300, 20, raylib::Color::Green());
+    m_simulation->render();
 
     m_window.DrawFPS(10, 10);
 

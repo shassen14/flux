@@ -14,6 +14,8 @@ public:
   // load simulation function?
   // I'm thinking templated with known SimType
   // and then variadic args for the simulator
+  // template<typename SimType, typename... Args>
+  void load();
 
   // updates, renders
   void run();
