@@ -1,6 +1,13 @@
 [simulation]
-type = "cpu_particles"
-total = 2000
+type = "particles"
+total = 10000
+
+# not used yet TODO:
+[particles]
+total = 5000
+
+[boids]
+# 3 paramaters to look at
 
 
 [window]

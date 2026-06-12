@@ -19,7 +19,6 @@ public:
       : position(0.0f, 0.0f), velocity(0.0f, 0.0f),
         color(255, 255, 255, 255) {};
 
-  // TODO: friend ostream print statements
   friend std::ostream &operator<<(std::ostream &out, const Particle &p) {
     return out << "Position (" << p.position.x << ", " << p.position.y << ")\n"
                << "Velocity (" << p.velocity.x << ", " << p.velocity.y << ")\n";

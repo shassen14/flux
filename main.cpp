@@ -2,8 +2,6 @@
 #include <Config.hpp>
 #include <ParticleSimulation.hpp>
 
-#include <iostream>
-
 int main(int argc, char *argv[]) {
   // TODO: hardcode kind of works. fragile
   // have to run from root i.e. ./build/main
@@ -17,11 +15,9 @@ int main(int argc, char *argv[]) {
   // simulation
   const size_t count = config.Get<size_t>("simulation", "total", 10);
 
-  std::cout << "W: " << width << " H: " << height << "\n";
-
   App app(width, height);
 
-  app.load<ParticleSimulation>(count);
+  app.Load<ParticleSimulation>(count);
 
   app.run();
 

@@ -14,7 +14,7 @@ public:
   // load simulation function?
   // I'm thinking templated with known SimType
   // and then variadic args for the simulator
-  template <typename SimType, typename... Args> void load(Args &&...args) {
+  template <typename SimType, typename... Args> void Load(Args &&...args) {
     // check if sim type is derived from ISimulation
     static_assert(std::is_base_of_v<ISimulation, SimType>);
 
@@ -23,8 +23,9 @@ public:
     // that they are inputted correctly via value type lval and rval
     m_simulation = std::make_unique<SimType>(std::forward<Args>(args)...);
 
-    m_simulation->init();
+    m_simulation->Init();
   }
+
   // updates, renders
   void run();
 

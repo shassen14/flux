@@ -7,11 +7,15 @@ public:
   virtual ~ISimulation() = default;
 
   // initialize any values for the simulator
-  virtual void init() = 0;
+  virtual void Init() = 0;
 
   // update physics model
   // pure virtual function
-  virtual void update(const float dt) = 0;
+  virtual void Update(const float dt) = 0;
 
-  virtual void render() = 0;
+  // object rendering
+  virtual void Render() = 0;
+
+  // extra rendering for user
+  virtual void RenderUI() = 0;
 };
