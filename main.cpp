@@ -1,4 +1,5 @@
 #include <App.hpp>
+#include <BoidSimulation.hpp>
 #include <Config.hpp>
 #include <ParticleSimulation.hpp>
 
@@ -17,7 +18,7 @@ int main(int argc, char *argv[]) {
 
   App app(width, height);
 
-  app.Load<ParticleSimulation>(count);
+  app.Load<BoidSimulation>(10);
 
   app.run();
 

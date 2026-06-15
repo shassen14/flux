@@ -9,6 +9,8 @@
 #include <raylib-cpp.hpp>
 #include <thread>
 
+///////////// Public /////////////////
+
 // TODO: Hardcoded values / strings need to be not that
 ParticleSimulation::ParticleSimulation(const size_t count)
     : m_count(count), m_mode(ComputeMode::SingleThreaded) {

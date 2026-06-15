@@ -27,7 +27,6 @@ void App::run() {
     // render object
     m_simulation->Render();
 
-    // render UI
     m_simulation->RenderUI();
 
     // ends the drawing stage

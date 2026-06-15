@@ -1,8 +1,8 @@
 #pragma once
 
-#include "State.hpp"
 #include <ISimulation.hpp>
 #include <Particle.hpp>
+#include <State.hpp>
 
 #include <vector>
 
