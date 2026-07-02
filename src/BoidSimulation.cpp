@@ -13,7 +13,9 @@ BoidSimulation::BoidSimulation(const size_t count) : m_count(count) {
   m_separation_weight = 1.0;
   m_cohesion_weight = 1.0;
   m_alignment_weight = 1.0;
-  m_neighbor_distance = 20.0;
+
+  m_neighbor_distance = 200.0;
+  m_max_speed = 100.0;
 }
 
 void BoidSimulation::Init() {
@@ -58,6 +60,10 @@ void BoidSimulation::Update(const float dt) {
     // velocity. TODO: clamp velocity
     boid.velocity += boid.acceleration * dt;
 
+    if (boid.velocity.Length() > m_max_speed) {
+      boid.velocity = boid.velocity.Normalize() * m_max_speed;
+    }
+
     // position update
     boid.position += boid.velocity * dt;
 
@@ -94,7 +100,26 @@ void BoidSimulation::RenderUI() {
 ///////// private //////////
 
 raylib::Vector2 BoidSimulation::separation(const Boid &boid) {
-  return raylib::Vector2(0, 0);
+  raylib::Vector2 steer(0, 0);
+  size_t num_neighbors = 0;
+
+  for (const auto &other : m_boids) {
+    float distance = boid.position.Distance(other.position);
+
+    // TODO: checking floating point issues here
+    if (distance > 0.0f && distance < m_neighbor_distance) {
+      raylib::Vector2 s =
+          (boid.position - other.position).Normalize() / distance;
+      steer += s;
+      num_neighbors++;
+    }
+  }
+
+  if (num_neighbors > 0) {
+    steer /= static_cast<float>(num_neighbors);
+  }
+
+  return steer;
 }
 
 raylib::Vector2 BoidSimulation::cohesion(const Boid &boid) {
@@ -102,6 +127,27 @@ raylib::Vector2 BoidSimulation::cohesion(const Boid &boid) {
 }
 
 raylib::Vector2 BoidSimulation::alignment(const Boid &boid) {
+  raylib::Vector2 average_velocity(0, 0);
+  size_t num_neighbors = 0;
+
+  for (const auto &other : m_boids) {
+    float distance = boid.position.Distance(other.position);
+
+    if (distance > 0.0f && distance < m_neighbor_distance) {
+      average_velocity += other.velocity;
+      num_neighbors++;
+    }
+  }
+
+  if (num_neighbors > 0) {
+    average_velocity /= static_cast<float>(num_neighbors);
+
+    raylib::Vector2 steer = average_velocity - boid.velocity;
+
+    // TODO: max Force
+    return steer;
+  }
+
   return raylib::Vector2(0, 0);
 }
 

@@ -40,4 +40,5 @@ private:
 
   // parameters
   float m_neighbor_distance;
+  float m_max_speed;
 };

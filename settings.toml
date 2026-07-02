@@ -1,6 +1,6 @@
 [simulation]
 type = "particles"
-total = 50000
+total = 50
 
 # not used yet TODO:
 [particles]
