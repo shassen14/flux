@@ -1,14 +1,19 @@
-#include "Vector2.hpp"
-#include "raylib.h"
 #include <Boid.hpp>
 #include <BoidSimulation.hpp>
 
+#include "Vector2.hpp"
+#include "raylib.h"
 #include <cmath>
-#include <iostream>
 #include <raylib-cpp.hpp>
 
 BoidSimulation::BoidSimulation(const size_t count) : m_count(count) {
   m_boids.reserve(m_count);
+
+  // hardcoded for now. TODO: change
+  m_separation_weight = 1.0;
+  m_cohesion_weight = 1.0;
+  m_alignment_weight = 1.0;
+  m_neighbor_distance = 20.0;
 }
 
 void BoidSimulation::Init() {
@@ -36,13 +41,46 @@ void BoidSimulation::Init() {
 void BoidSimulation::Update(const float dt) {
   //
   //
-  //
+  const int32_t width = raylib::Window::GetWidth();
+  const int32_t height = raylib::Window::GetHeight();
+
+  // calculate acceleration
+  for (Boid &boid : m_boids) {
+    raylib::Vector2 sep = separation(boid) * m_separation_weight;
+    raylib::Vector2 align = alignment(boid) * m_alignment_weight;
+    raylib::Vector2 coh = cohesion(boid) * m_cohesion_weight;
+
+    boid.acceleration += sep + align + coh;
+  }
+
+  // update
+  for (Boid &boid : m_boids) {
+    // velocity. TODO: clamp velocity
+    boid.velocity += boid.acceleration * dt;
+
+    // position update
+    boid.position += boid.velocity * dt;
+
+    // boundary checks
+    if (boid.position.x < 0) {
+      boid.position.x = 0;
+    }
+    if (boid.position.y < 0) {
+      boid.position.y = 0;
+    }
+    if (boid.position.x > width) {
+      boid.position.x = width;
+    }
+    if (boid.position.y > height) {
+      boid.position.y = height;
+    }
+  }
 }
 
 // render
 void BoidSimulation::Render() {
   for (const Boid &boid : m_boids) {
-    draw_boid(boid, 10.0f);
+    draw_boid(boid, 15.0f);
   }
 }
 
@@ -54,6 +92,18 @@ void BoidSimulation::RenderUI() {
 }
 
 ///////// private //////////
+
+raylib::Vector2 BoidSimulation::separation(const Boid &boid) {
+  return raylib::Vector2(0, 0);
+}
+
+raylib::Vector2 BoidSimulation::cohesion(const Boid &boid) {
+  return raylib::Vector2(0, 0);
+}
+
+raylib::Vector2 BoidSimulation::alignment(const Boid &boid) {
+  return raylib::Vector2(0, 0);
+}
 
 void BoidSimulation::draw_boid(const Boid &boid, const float size) {
   // heading angle
@@ -87,7 +137,7 @@ void BoidSimulation::draw_boid(const Boid &boid, const float size) {
   const raylib::Vector2 global_indent = local_to_global_transform(local_indent);
 
   // draw the 2 triangles
-  // DrawTriangle(global_tip, global_left, global_indent, boid.color);
+  // TODO: check how this works. the ordering matters, I don't know why
   DrawTriangle(global_left, global_tip, global_indent, boid.color);
   DrawTriangle(global_tip, global_right, global_indent, boid.color);
 }

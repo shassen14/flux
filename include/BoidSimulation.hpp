@@ -32,4 +32,12 @@ private:
 
   // number of particles
   size_t m_count;
+
+  // coefficients
+  float m_separation_weight;
+  float m_alignment_weight;
+  float m_cohesion_weight;
+
+  // parameters
+  float m_neighbor_distance;
 };

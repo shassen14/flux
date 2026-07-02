@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 
   App app(width, height);
 
-  app.Load<BoidSimulation>(10);
+  app.Load<BoidSimulation>(count);
 
   app.run();
 
