@@ -1,7 +1,6 @@
 #include <App.hpp>
-#include <BoidSimulation.hpp>
 #include <Config.hpp>
-#include <ParticleSimulation.hpp>
+#include <SimulationRegistry.hpp>
 
 int main(int argc, char *argv[]) {
   // TODO: hardcode kind of works. fragile
@@ -12,13 +11,14 @@ int main(int argc, char *argv[]) {
   // window
   const int32_t width = config.Get<int32_t>("window", "width", 800);
   const int32_t height = config.Get<int32_t>("window", "height", 600);
-
-  // simulation
-  const size_t count = config.Get<size_t>("simulation", "total", 10);
-
   App app(width, height);
 
-  app.Load<BoidSimulation>(count);
+  const std::string sim_type =
+      config.Get<std::string>("simulation", "type", "particle");
+
+  if (!DispatchSimulation(sim_type, config, app)) {
+    return -1;
+  }
 
   app.run();
 

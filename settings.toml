@@ -1,14 +1,14 @@
 [simulation]
-type = "particles"
-total = 50
+# type = "particle"
+# type = "boid"
 
 # not used yet TODO:
-[particles]
-total = 5000
+[particle]
+total = 3920
 
-[boids]
+[boid]
 # 3 paramaters to look at
-
+total = 100
 
 [window]
 width = 1280

@@ -123,6 +123,27 @@ raylib::Vector2 BoidSimulation::separation(const Boid &boid) {
 }
 
 raylib::Vector2 BoidSimulation::cohesion(const Boid &boid) {
+  // calculate center of mass
+  raylib::Vector2 mass_center(0, 0);
+  size_t num_neighbors = 0;
+
+  for (const auto &other : m_boids) {
+    float distance = boid.position.Distance(other.position);
+
+    if (distance > 0.0f && distance <= m_neighbor_distance) {
+      mass_center += other.position;
+      num_neighbors++;
+    }
+  }
+
+  mass_center /= static_cast<float>(num_neighbors);
+
+  if (num_neighbors > 0) {
+    raylib::Vector2 steer = mass_center - boid.position;
+    return steer;
+  }
+
+  // calculate steering
   return raylib::Vector2(0, 0);
 }
 
